@@ -52,8 +52,17 @@ document.querySelector(".btn--hold").addEventListener("click", () => {
 		document.getElementById("score--" + activePlayer).textContent =
 			scores[activePlayer];
 
+		let inputScore = document.getElementById("input-score").value;
+
+		let winningScore;
+		if (inputScore) {
+			winningScore = inputScore;
+		} else {
+			winningScore = 100;
+		}
+
 		// comprobamos si el jugador gano el juego
-		if (scores[activePlayer] >= 100) {
+		if (scores[activePlayer] >= winningScore) {
 			document.getElementById("name--" + activePlayer).textContent =
 				"Winner";
 
