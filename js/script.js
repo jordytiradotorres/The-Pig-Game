@@ -5,6 +5,8 @@ let scores,
 
 init();
 
+let lastDice;
+
 document.querySelector(".btn--roll").addEventListener("click", () => {
 	if (gamePlaying) {
 		// numero aleatorio
@@ -16,8 +18,15 @@ document.querySelector(".btn--roll").addEventListener("click", () => {
 		diceDOM.style.display = "block";
 		diceDOM.src = `images/dice-${dice}.png`;
 
-		// actualizar el score, siempre y cuando no sea 1, si no es turno del jugador 2
-		if (dice !== 1) {
+		// si el dado tira 2 veces seguidas 6, el jugador pierde la puntuacion total
+		if (dice === 6 && lastDice === 6) {
+			scores[activePlayer] = 0;
+
+			document.getElementById("score--" + activePlayer).textContent = "0";
+			nextPlayer();
+		}
+		// si el dado tira diferente de 1 suma la puntuacion de lo contrario es turno del siguiente jugador
+		else if (dice !== 1) {
 			// add score
 			roundScore += dice;
 
@@ -28,6 +37,8 @@ document.querySelector(".btn--roll").addEventListener("click", () => {
 			// next player
 			nextPlayer();
 		}
+
+		lastDice = dice;
 	}
 });
 
@@ -42,7 +53,7 @@ document.querySelector(".btn--hold").addEventListener("click", () => {
 			scores[activePlayer];
 
 		// comprobamos si el jugador gano el juego
-		if (scores[activePlayer] >= 20) {
+		if (scores[activePlayer] >= 100) {
 			document.getElementById("name--" + activePlayer).textContent =
 				"Winner";
 
