@@ -16,6 +16,6 @@ Pequeño juego Pig Game hecho con vanillaJS
 - Existe un input para agregar la puntuacion final modificada
 
 - Se lanzan dos dados estándar. Si ninguno muestra un 1, su suma se suma al total del turno.
-- Si se lanza un solo 1, el jugador no puntúa nada y el turno termina. Cerdo (juego de dados)
+- Si se lanza un solo 1, el jugador no puntúa nada y el turno termina.
 
 - Si se lanza 6 dos veces seguidas, no puntua nada y se convierte en el turno del siguente juugador.
