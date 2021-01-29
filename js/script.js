@@ -7,32 +7,49 @@ init();
 
 let lastDice;
 
+let dice, diceTwo;
+
 document.querySelector(".btn--roll").addEventListener("click", () => {
 	if (gamePlaying) {
 		// numero aleatorio
-		let dice = Math.floor(Math.random() * 6) + 1;
+		dice = Math.floor(Math.random() * 6) + 1;
+		diceTwo = Math.floor(Math.random() * 6) + 1;
 
 		// mostrar el resultado
 		let diceDOM = document.querySelector(".dice");
+		let diceDOMTwo = document.querySelector(".dice-two");
 
 		diceDOM.style.display = "block";
 		diceDOM.src = `images/dice-${dice}.png`;
+
+		diceDOMTwo.style.display = "block";
+		diceDOMTwo.src = `images/dice-${diceTwo}.png`;
 
 		// si el dado tira 2 veces seguidas 6, el jugador pierde la puntuacion total
 		if (dice === 6 && lastDice === 6) {
 			scores[activePlayer] = 0;
 
 			document.getElementById("score--" + activePlayer).textContent = "0";
+
+			message(dice);
+
 			nextPlayer();
 		}
 		// si el dado tira diferente de 1 suma la puntuacion de lo contrario es turno del siguiente jugador
-		else if (dice !== 1) {
+		else if (dice !== 1 && diceTwo !== 1) {
 			// add score
-			roundScore += dice;
+			roundScore += dice + diceTwo;
 
 			document.querySelector(
 				"#current--" + activePlayer
 			).textContent = roundScore;
+		} else if (dice === 1 || diceTwo === 1) {
+			scores[activePlayer] = 0;
+			document.getElementById("score--" + activePlayer).textContent = "0";
+
+			message();
+
+			nextPlayer();
 		} else {
 			// next player
 			nextPlayer();
@@ -86,6 +103,16 @@ document.querySelector(".btn--hold").addEventListener("click", () => {
 	}
 });
 
+function message() {
+	let p = document.querySelector(".number-dice");
+	p.textContent = `You rolled 1 or 2 times 6`;
+	p.style.transform = "translateX(0px)";
+
+	setTimeout(() => {
+		p.style.transform = "translateX(-300px)";
+	}, 700);
+}
+
 function nextPlayer() {
 	activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
 
@@ -99,6 +126,7 @@ function nextPlayer() {
 
 	// ocultamos el dado cuando salga 1
 	document.querySelector(".dice").style.display = "none";
+	document.querySelector(".dice-two").style.display = "none";
 }
 
 // function init
@@ -110,6 +138,7 @@ function init() {
 	roundScore = 0;
 
 	document.querySelector(".dice").style.display = "none";
+	document.querySelector(".dice-two").style.display = "none";
 
 	document.getElementById("score--0").textContent = "0";
 	document.getElementById("score--1").textContent = "0";
